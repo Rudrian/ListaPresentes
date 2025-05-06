@@ -1,25 +1,25 @@
-function carregarTarefas() {
+function carregarPresenca() {
     $.ajax({
         url: '/ListaPresentes/',
         type: 'GET',
-        success: function (tarefas) {
+        success: function (presenca) {
             let lista = '';
-            tarefas.forEach(presenca => {
+            presenca.forEach(item => {
                 lista += `
                     <li class="list-group-item">
-                        <strong>${presenca.nome}</strong><br>
-                        <small>${presenca.cargo || ''}</small><br>
-                        <small>${presenca.empresa || ''}</small>
+                        <strong>${item.nome}</strong><br>
+                        <small>${item.cargo || ''}</small><br>
+                        <small>${item.empresa || ''}</small>
                     </li>
                 `;
             });
-            $('#listaTarefas').html(lista);
+            $('#listaPresenca').html(lista);
         }
     });
 }
 
-function adicionarTarefa() {
-    const tarefa = {
+function adicionarPresenca() {
+    const presenca = {
         nome: $('#nomePresenca').val(),
         cargo: $('#cargoPresenca').val(),
         empresa: $('#empresaPresenca').val()
@@ -29,17 +29,17 @@ function adicionarTarefa() {
         url: '/ListaPresentes/',
         type: 'POST',
         contentType: 'application/json',
-        data: JSON.stringify(tarefa),
+        data: JSON.stringify(presenca),
         success: function () {
-            $('#formTarefa')[0].reset();
-            carregarTarefas();
+            $('#formPresenca')[0].reset();
+            carregarPresenca();
         },
         error: function (xhr) {
-            console.error("Erro ao adicionar tarefa:", xhr.responseText);
+            console.error("Erro ao adicionar presença:", xhr.responseText);
         }
     });
 }
 
 $(document).ready(function () {
-    carregarTarefas();
+    carregarPresenca();
 });
